@@ -2,6 +2,7 @@ import { Client, Collection } from'discord.js'
 import figlet from 'figlet'
 import chalk from 'chalk'
 import path from 'path'
+import { PrismaClient } from '@prisma/client'
 
 import Command from './Command'
 import Event from './Event'
@@ -9,6 +10,8 @@ import Event from './Event'
 import config from '../config'
 import helpers from '../helpers'
 import strings from '../strings'
+
+const prisma = new PrismaClient()
 
 class BotBase extends Client {
   constructor(options) {
@@ -106,8 +109,21 @@ class BotBase extends Client {
     console.log(chalkText)
   }
 
+  async prismaMain () {
+    console.log({ prisma })
+    this.prisma = prisma
+  }
+
   async start () {   
     this.printNameOnConsole()
+
+    await this.prismaMain()
+      .catch((e) => {
+        throw e
+      })
+      .finally(async () => {
+        await prisma.$disconnect()
+      })
 
     await this.load()
 

@@ -7,6 +7,7 @@
     "dev": "nodemon --exec babel-node src/index.js"
   },
   "dependencies": {
+    "@prisma/client": "2.28.0",
     "chalk": "^4.1.2",
     "common-tags": "^1.8.0",
     "discord.js": "^12.5.3",
