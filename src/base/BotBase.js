@@ -110,7 +110,6 @@ class BotBase extends Client {
   }
 
   async prismaMain () {
-    console.log({ prisma })
     this.prisma = prisma
   }
 

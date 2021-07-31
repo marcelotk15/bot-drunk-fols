@@ -17,8 +17,6 @@ class Jokes extends Command {
     const { prisma, config } = this.client
     const [ joke ] = await prisma.$queryRaw('SELECT * FROM charadas ORDER BY RANDOM() LIMIT 1')
 
-    console.log({ joke })
-
     const messageEmbed = new MessageEmbed()
       .setTitle(joke.pergunta)
       .setThumbnail(config.joker.thumbnail[Math.floor(Math.random() * config.joker.thumbnail.length)])
