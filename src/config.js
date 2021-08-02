@@ -1,17 +1,25 @@
 import { version } from '../package.json'
 
+require('dotenv').config()
+
+const {
+  PRODUCTION,
+  BOT_TOKEN,
+  BOT_PREFIX
+} = process.env
+
 const config = {
-  production: true,
-  token: '', /* The token of your Discord Bot */
+  production: PRODUCTION || false,
   mongoDB: '', // The URl of the mongodb database
-  prefix: '/beer', // The default prefix for the bot
-  logo: 'https://i.imgur.com/TlSWaAA.png',
+  token: BOT_TOKEN || '', /* The token of your Discord Bot */
+  prefix: BOT_PREFIX || '/', // The default prefix for the bot
+  logo: 'https://images.emojiterra.com/twitter/v13.0/512px/1f37b.png',
   autoDeleteModCommands: true,
 
   /* For the embeds (embeded messages) */
   get embed () {
     return {
-      color: '#ccad73', // The default color for the embeds
+      color: '#023e8a', // The default color for the embeds
       footer: `${this.botName} | Sistema feito por ${this.owner.name}`
     }
   },
@@ -19,10 +27,10 @@ const config = {
   botName: 'DrunkFols', // The name of the bot
   version, // Version getting in package.json
 
-  /* Bot's creator informations */
+  /* Bot's owner informations */
   owner: {
-    id: '667543310079885343', // The ID of the bot's creator
-    name: 'teka#7575' // And the name of the bot's creator
+    id: '667543310079885343', // The ID of the bot's owner
+    name: 'teka#3059' // And the name of the bot's owner
   },
     
   /* The others utils links */
@@ -61,7 +69,18 @@ const config = {
   protectfChannels : [
     '713551121024811019',
     '713801224863875103'
-  ]
+  ],
+
+  joke: {
+    thumbnail: [
+      'https://thumbs.gfycat.com/MellowWeirdAmericanquarterhorse-max-1mb.gif',
+      'https://thumbs.gfycat.com/CaringAdmiredAustralianfreshwatercrocodile-max-1mb.gif',
+      'https://thumbs.gfycat.com/BouncyHotFoal-max-1mb.gif',
+      'https://thumbs.gfycat.com/SelfreliantPowerlessIrishterrier-max-1mb.gif',
+      'https://thumbs.gfycat.com/MadeupDismalBlackmamba-max-1mb.gif',
+      'https://thumbs.gfycat.com/ReasonableSmartCatfish-max-1mb.gif'
+    ]
+  }
 }
 
 export default config

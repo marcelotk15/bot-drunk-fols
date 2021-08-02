@@ -19,7 +19,7 @@ class Jokes extends Command {
 
     const messageEmbed = new MessageEmbed()
       .setTitle(joke.pergunta)
-      .setThumbnail(config.joker.thumbnail[Math.floor(Math.random() * config.joker.thumbnail.length)])
+      .setThumbnail(config.joke.thumbnail[Math.floor(Math.random() * config.joke.thumbnail.length)])
       .setFooter(config.embed.footer, config.logo)
       .setColor(config.embed.color)
     

@@ -1,3 +1,4 @@
+import { cli } from 'winston/lib/winston/config';
 import Event from '../base/Event'
 import helpers from '../helpers'
 
@@ -17,6 +18,7 @@ class Message extends Event {
 
   async run (message) {
     const { client } = this
+    const { config, commands, aliases } = client
     const data = {}
 
     //canais protegidos
@@ -64,15 +66,17 @@ class Message extends Event {
 
     // Check if the bot was mentionned
     if(message.content.match(new RegExp(`^<@!?${client.user.id}>( |)$`)))
-      return message.reply(`the prefix of this server is \`${client.config.prefix}\``)
+      return message.reply(`the prefix of this server is \`${config.prefix}\``)
 
     // Check message is a command
-    if (!message.content.startsWith(client.config.prefix)) return
+    if (!message.content.startsWith(config.prefix)) return
 
-    const args = message.content.slice(client.config.prefix.length).trim().split(/ +/)
+    const args = message.content.slice(config.prefix.length).trim().split(/ +/)
     const command = args.shift().toLowerCase()
     
-    const commandFunction = client.commands.get(command) || client.commands.get(client.aliases.get(command));
+    const commandFunction = commands.get(command) || commands.get(aliases.get(command))
+
+    if (!commandFunction) return
 
     if (commandFunction.conf.guildOnly && !message.guild)
       return message.channel.send('This command is only available on a server!')
@@ -122,8 +126,8 @@ class Message extends Event {
     if(!commandFunction.conf.enabled)
       return message.channel.send('This command is currently disabled!')
 
-    if(commandFunction.conf.ownerOnly && message.author.id !== client.config.owner.id)
-      return message.channel.send(`Only @${client.config.owner.name} can do these commands!`)
+    if(commandFunction.conf.ownerOnly && message.author.id !== config.owner.id)
+      return message.channel.send(`Only @${config.owner.name} can do these commands!`)
 
     let uCooldown = cmdCooldown[message.author.id]
 
@@ -153,7 +157,7 @@ class Message extends Event {
     try {
       commandFunction.run(message, args, data)
 
-      if (commandFunction.help.category === 'Moderation' && client.config.autoDeleteModCommands)
+      if (commandFunction.help.category === 'Moderation' && config.autoDeleteModCommands)
         message.delete()
     } catch (err) {
       console.error(err)
