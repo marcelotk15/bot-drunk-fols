@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon --exec babel-node src/index.js",
-    "start": "babel-node src/index.js"
+    "start": "npx prisma generate && babel-node src/index.js"
   },
   "dependencies": {
     "@prisma/client": "2.28.0",
